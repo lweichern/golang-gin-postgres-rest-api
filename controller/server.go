@@ -169,7 +169,6 @@ func UpdateBook(c *gin.Context) {
 		c.AbortWithStatusJSON(400, "Could not update Book")
 	}else{
 		book, _ := getBookById(id)
-		fmt.Println("here...")
 		c.IndentedJSON(http.StatusOK, book)
 	}
 
