@@ -8,8 +8,8 @@ import (
 
 func BookRoute(router *gin.Engine){
 	router.GET("/books", controller.GetBooks)
-	router.POST("/books", controller.PostBook)
 	router.GET("/books/:id", controller.GetBook)
+	router.POST("/books", controller.PostBook)
 	router.DELETE("/books/:id", controller.DeleteBook)
-	router.PUT("/books/:id", controller.UpdateBook)
+	router.PATCH("/books/:id", controller.UpdateBook)
 }

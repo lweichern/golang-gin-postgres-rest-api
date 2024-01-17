@@ -1,34 +1,42 @@
 package database
 
 import (
-	"database/sql"
+	"example/http-server/models"
 	"fmt"
 	"os"
 	"strconv"
 
 	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 
 	"github.com/joho/godotenv"
 )
 
-var Db *sql.DB // create db var
+var Db *gorm.DB // create db var
 
 func ConnectDatabase(){
 	err := godotenv.Load() // access .env file
 	if err != nil {
-		fmt.Println("Error occured on .env file...")
+		panic("Error occured on .env file...")
 	}
 
 	// read postgres details in .env
 	host := os.Getenv("HOST")
 	port, _ := strconv.Atoi(os.Getenv("PORT")) // strconv.atoi to convert port num from string to int 
-	user := os.Getenv("USERNAME")
+	user := os.Getenv("USER")
 	dbname := os.Getenv("DB_NAME")
 	password := os.Getenv("PASSWORD")
 
 	// set up postgresql to open
 	psqlSetup := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=disable", host , port, user, dbname, password)
-	db, errSql := sql.Open("postgres",psqlSetup)
+	
+	// connect to postgres db
+	db, errSql := gorm.Open(postgres.Open(psqlSetup), &gorm.Config{})
+
+	// Migrate the schema
+	db.AutoMigrate(&models.Book{})
+	
 	if errSql != nil {
 		fmt.Println("There is an error while connecting to the database ", err)
 		panic(err)
