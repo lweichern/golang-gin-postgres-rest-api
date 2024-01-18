@@ -48,12 +48,20 @@ func GetBook(c *gin.Context) {
 
 func PostBook(c *gin.Context) {
 	var bookData models.Book
+	var authorData models.Author
 
 	// Bind the Json body to Book struct
 	// ShouldBindJSON is more lenient, doesn't check for validation error like missing required fields or invalid data types
 	// BindJSON is stricter and will return 400 Bad request status and abort request.
 	if err := c.ShouldBindJSON(&bookData); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("Invalid request body: %s", err.Error())})
+		return
+	}
+	fmt.Println("Book dataa: ", bookData)
+	result := database.Db.Where("id=?", bookData.AuthorID).First(&authorData)
+
+	if result.Error != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"error": "Cannot find author"})
 		return
 	}
 

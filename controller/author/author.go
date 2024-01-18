@@ -14,7 +14,8 @@ var DB = database.Db
 func GetAuthors(c *gin.Context){
 	var authors []models.Author
 
-	result := database.Db.Find(&authors)
+	// Preload to load all the books associated to the authors
+	result := database.Db.Preload("Books").Find(&authors)
 
 	if result.Error != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"error": result.Error})
@@ -28,7 +29,8 @@ func GetAuthor(c *gin.Context) {
 	id := c.Param("id")
 	var author models.Author
 
-	result := database.Db.First(&author, id)
+	// Preload to load all the books associated to the authors
+	result := database.Db.Preload("Books").First(&author, id)
 
 	if result.Error != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"error": result.Error})
@@ -48,5 +50,5 @@ func PostAuthor(c *gin.Context) {
 
 	database.Db.Create(&author)
 
-	c.IndentedJSON(http.StatusOK, gin.H{"messaage": "Author created successfully!"})
+	c.IndentedJSON(http.StatusOK, gin.H{"messaage": "Author created successfully!", "author": author})
 }
