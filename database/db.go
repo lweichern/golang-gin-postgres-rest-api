@@ -35,7 +35,7 @@ func ConnectDatabase(){
 	db, errSql := gorm.Open(postgres.Open(psqlSetup), &gorm.Config{})
 
 	// Migrate the schema
-	db.AutoMigrate(&models.Book{})
+	db.AutoMigrate(&models.Book{}, &models.User{}, &models.Author{})
 	
 	if errSql != nil {
 		fmt.Println("There is an error while connecting to the database ", err)
