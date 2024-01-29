@@ -10,17 +10,16 @@ import (
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 )
 
 var Db *gorm.DB // create db var
 
 func ConnectDatabase() {
-	err := godotenv.Load() // access .env file
-	if err != nil {
-		panic("Error occured on .env file...")
-	}
+	// err := godotenv.Load() // access .env file
+	// if err != nil {
+	// 	panic("Error occured on .env file...")
+	// }
 
 	// read postgres details in .env
 	// host := os.Getenv("HOST")
@@ -41,8 +40,8 @@ func ConnectDatabase() {
 	db.AutoMigrate(&models.Author{}, &models.Book{}, &models.User{})
 
 	if errSql != nil {
-		fmt.Println("There is an error while connecting to the database ", err)
-		panic(err)
+		fmt.Println("There is an error while connecting to the database ", errSql)
+		panic(errSql)
 	} else {
 		Db = db
 		fmt.Println("Successfully connected to pg database!")
