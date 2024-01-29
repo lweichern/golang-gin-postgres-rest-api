@@ -4,22 +4,22 @@ import (
 	"example/http-server/models"
 	"fmt"
 
-	// "os"
+	"os"
 	// "strconv"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	// "github.com/joho/godotenv"
 )
 
 var Db *gorm.DB // create db var
 
 func ConnectDatabase() {
-	// err := godotenv.Load() // access .env file
-	// if err != nil {
-	// 	panic("Error occured on .env file...")
-	// }
+	err := godotenv.Load() // access .env file
+	if err != nil {
+		panic("Error occured on .env file...")
+	}
 
 	// read postgres details in .env
 	// host := os.Getenv("HOST")
@@ -30,8 +30,7 @@ func ConnectDatabase() {
 
 	// set up postgresql to open
 	// psqlSetup := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=disable", host, port, user, dbname, password)
-
-	psqlSetup := "postgresql://postgres:cD-eCfe*AGA4GCabcg*Bc*b5BC61D*Ga@viaduct.proxy.rlwy.net:48223/railway"
+	psqlSetup := os.Getenv("DB_RAILWAY_URL")
 
 	// connect to postgres db
 	db, errSql := gorm.Open(postgres.Open(psqlSetup), &gorm.Config{})
