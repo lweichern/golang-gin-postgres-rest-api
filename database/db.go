@@ -7,7 +7,6 @@ import (
 	"os"
 	// "strconv"
 
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -16,10 +15,10 @@ import (
 var Db *gorm.DB // create db var
 
 func ConnectDatabase() {
-	err := godotenv.Load() // access .env file
-	if err != nil {
-		panic("Error occured on .env file...")
-	}
+	// err := godotenv.Load() // access .env file
+	// if err != nil {
+	// 	panic("Error occured on .env file...")
+	// }
 
 	// read postgres details in .env
 	// host := os.Getenv("HOST")
