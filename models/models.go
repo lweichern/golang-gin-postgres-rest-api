@@ -22,5 +22,5 @@ type Author struct {
 	Name 	string `json:"name"`
 	Country	string `json:"country"`
 	Age		int16  `json:"age"`
-	Books	[]Book `json:"books"`
+	Books	[]Book `json:"books"` // one-to-many relation
 }

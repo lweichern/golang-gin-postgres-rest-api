@@ -14,7 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetBooks(c *gin.Context){
+func GetBooks(c *gin.Context) {
 	var bookList []models.Book
 	// Find books
 	result := database.Db.Find(&bookList)
@@ -23,7 +23,7 @@ func GetBooks(c *gin.Context){
 	if result.Error != nil {
 		fmt.Println("Error finding books: ", result.Error)
 		c.AbortWithStatusJSON(400, "Something went wrong...")
-	} 
+	}
 
 	c.IndentedJSON(http.StatusOK, bookList)
 }
@@ -57,7 +57,7 @@ func PostBook(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("Invalid request body: %s", err.Error())})
 		return
 	}
-	fmt.Println("Book dataa: ", bookData)
+
 	result := database.Db.Where("id=?", bookData.AuthorID).First(&authorData)
 
 	if result.Error != nil {

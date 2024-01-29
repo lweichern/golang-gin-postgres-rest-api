@@ -14,7 +14,7 @@ import (
 )
 
 // USER CONTROLLER
-func RegisterUser(c *gin.Context){
+func RegisterUser(c *gin.Context) {
 	var user models.User
 
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -45,6 +45,8 @@ func LoginUser(c *gin.Context) {
 
 	// Hash password
 	loginUser.Password = lib.HashPassword(loginUser.Password)
+
+	fmt.Println("result: ", result.Error)
 
 	// Chck if user exists in database, if exists, check password
 	if result.Error != nil || user.Password != loginUser.Password {
